@@ -7,10 +7,23 @@ class Square extends React.Component {
         return (
             <button 
             className="square"
+            style={{backgroundColor:this.props.colorVal}}
             onClick= { () => this.props.onClick() } >
-                {this.props.colorVal},{this.props.index}
+                {this.props.index}
             </button>
         );
+    }
+}
+
+class FixSquare extends React.Component {
+    render() {
+        return (
+            <button
+            className="square"
+            style={{backgroundColor:this.props.colorVal}} >
+                {this.props.index}
+            </button>
+        )
     }
 }
 
@@ -24,6 +37,7 @@ function ColorBox(props) {
 }
 
 class Board extends React.Component {
+
     constructor() {
         super()
         var n = 5;
@@ -31,33 +45,51 @@ class Board extends React.Component {
         this.state = {
             n:5,
             m:5,
-            squares: Array(n*m).fill('blue'),
-            currentColor: 'grey',
+            colorsArray:["white","red"],
+            squares: Array(n*m).fill(0),
+            currentColor: 0,
         };
-        // this.currentColor = 'grey'
+        this.handleNChange = this.handleNChange.bind(this);
+        this.handleMChange = this.handleMChange.bind(this);
     }
+
     handleClick(index) {
         console.log("handleClick" + index);
         var squares = this.state.squares.slice();
         squares[index] = this.state.currentColor;
         this.setState({squares: squares});
+        // console.log(this.state.squares);
     }
+
     handleColorChoose(color) {
         this.setState({currentColor:color});
     }
+
     renderSquare(index) {
         return (<Square 
             index={index} //colorVal={this.state.squares[i*this.m+j]}
-            colorVal={this.state.squares[index]}
+            colorVal={this.state.colorsArray[this.state.squares[index]]}
             onClick = {()=>this.handleClick(index)} />);
     }
+
     renderColorBox(color) {
-        return <ColorBox color={color} onClick={()=>this.handleColorChoose(color)}/>;
+        return <ColorBox color={this.state.colorsArray[color]} onClick={()=>this.handleColorChoose(color)}/>;
     }
+
     handleNChange(event) {
-        this.setState({n:event.target.value});
+        console.log(event.target.value);
+        var newLength = this.state.m*event.target.value;
+        this.setState({n:event.target.value,
+                        squares: Array(newLength).fill('white')});
     }
-    render() {
+
+    handleMChange(event) {
+        var newLength = this.state.n*event.target.value;
+        this.setState({m:event.target.value,
+                        squares: Array(newLength).fill('white')});
+    }
+
+    renderInputGrid() {
         var rows = []
         for (var i =0;i < this.state.n;i++)
         {
@@ -68,8 +100,27 @@ class Board extends React.Component {
             }
             rows.push(<div className="board-row">{row}</div>);
         }
+        return rows
+    }
+
+    renderOutputGrid() {
+        var rows = []
+        // for()
+    }
+
+    renderColorList() {
+        var rows = []
+        for(var i=0;i<this.state.colorsArray.length;i++)
+            rows.push(this.renderColorBox(i));  
+        return rows
+    }
+
+    render() {
+        var rows = this.renderInputGrid()
+        var colorRows = this.renderColorList()
         return (
         <div>
+
             <select value={this.state.n} onChange={this.handleNChange} >
                 <option value="5">5</option>
                 <option value="6">6</option>
@@ -78,6 +129,7 @@ class Board extends React.Component {
                 <option value="9">9</option>
                 <option value="10">10</option>
             </select>
+
             <select value={this.state.m} onChange={this.handleMChange} >
                 <option value="5">5</option>
                 <option value="6">6</option>
@@ -86,10 +138,12 @@ class Board extends React.Component {
                 <option value="9">9</option>
                 <option value="10">10</option>
             </select>
-            
+
             <div className="grid">{rows}</div>
+
             <div className="grid">
-                {this.renderColorBox("red")}
+                {colorRows}
+                {/* {this.renderColorBox("red")}
                 {this.renderColorBox("blue")}
                 {this.renderColorBox("green")}
                 {this.renderColorBox("yellow")}
@@ -98,7 +152,9 @@ class Board extends React.Component {
                 {this.renderColorBox("purple")}
                 {this.renderColorBox("brown")}
                 {this.renderColorBox("#e75480")}
+                {this.renderColorBox("white")} */}
             </div>
+
         </div>
         );
     }
