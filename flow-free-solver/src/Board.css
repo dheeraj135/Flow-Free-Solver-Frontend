@@ -10,13 +10,13 @@
     float: left;
     font-size: 10px;
     font-weight: bold;
-    line-height: 60px;
-    height: 60px;
+    line-height: 5em;
+    height: 5em;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 60px;
+    width: 5em;
  }
 
 .color-box {
@@ -24,4 +24,21 @@
   height: 40px;
   border-radius: 50%;
   border: 1px solid;
+
+}
+
+.grid-mat {
+  width:100%;
+}
+
+.grid {
+  margin:50px;
+  max-width:500px;
+}
+
+.option-menu {
+  margin: auto;
+  width:100%;
+  align-items: center;
+  text-align: center;
 }

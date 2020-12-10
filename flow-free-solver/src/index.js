@@ -5,12 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Board from './Board.js';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// );
 
 const testelement = <h1> Hello World</h1>
 ReactDOM.render(
